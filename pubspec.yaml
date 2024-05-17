@@ -30,6 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    # 网络库 https://github.com/cfug/dio
+  dio: ^5.4.3+1
+  # https://github.com/ReactiveX/rxdart
+  rxdart: ^0.27.7
+  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
+  common_utils: 2.1.0
+  sp_util: 2.0.3
 
 
   # The following adds the Cupertino Icons font to your application.
