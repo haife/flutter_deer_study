@@ -56,8 +56,7 @@ class LoadImage extends StatelessWidget {
 
 /// 加载本地资源图片
 class LoadAssetImage extends StatelessWidget {
-  const LoadAssetImage(this.image,
-      {super.key, this.width, this.height, this.cacheWidth, this.cacheHeight, this.fit, this.format = ImageFormat.png, this.color});
+  const LoadAssetImage(this.image, {super.key, this.width, this.height, this.cacheWidth, this.cacheHeight, this.fit, this.format = ImageFormat.png, this.color});
 
   final String image;
   final double? width;

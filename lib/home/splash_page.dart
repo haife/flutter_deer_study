@@ -5,7 +5,6 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_deer_study/util/theme_utils.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
@@ -17,7 +16,6 @@ import '../login/login_router.dart';
 import '../res/constant.dart';
 import '../routers/navigator_utils.dart';
 import '../util/Device.dart';
-import '../util/app_navigator.dart';
 import '../util/image_utils.dart';
 import '../widgets/fractionally_aligned_sized_box.dart';
 import '../widgets/load_image.dart';
@@ -96,9 +94,7 @@ class _SplashPageState extends State<SplashPage> {
     return Material(
         color: context.backgroundColor,
         child: _status == 0
-            ? const FractionallyAlignedSizedBox(
-                heightFactor: 0.3, widthFactor: 0.33, leftFactor: 0.33, bottomFactor: 0, child: LoadAssetImage('logo'))
-            : Swiper(
+            ? const FractionallyAlignedSizedBox(heightFactor: 0.3, widthFactor: 0.33, leftFactor: 0.33, bottomFactor: 0, child: LoadAssetImage('logo')) : Swiper(
                 key: const Key('swiper'),
                 itemCount: _guideList.length,
                 loop: false,

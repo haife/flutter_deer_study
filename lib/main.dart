@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deer_study/home/splash_page.dart';
 import 'package:flutter_deer_study/res/constant.dart';
+import 'package:flutter_deer_study/routers/routers.dart';
 import 'package:flutter_deer_study/setting/provider/locale_provider.dart';
 import 'package:flutter_deer_study/setting/provider/theme_provider.dart';
 import 'package:flutter_deer_study/util/Device.dart';
 import 'package:flutter_deer_study/util/handle_error_utils.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_util/sp_util.dart';
+import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -58,7 +59,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key, this.home, this.theme}) {
-    switch (theme) {}
+    Routers.initRoutes();
   }
 
   final Widget? home;
@@ -85,17 +86,19 @@ class MyApp extends StatelessWidget {
 
   Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
     return MaterialApp(
+      // showPerformanceOverlay: true, //显示性能标签
+      // debugShowCheckedModeBanner: false, // 去除右上角debug的标签
+      // checkerboardRasterCacheImages: true,
+      // showSemanticsDebugger: true, // 显示语义视图
+      // checkerboardOffscreenLayers: true, // 检查离屏渲染
       title: 'Flutter Deer',
       theme: theme ?? provider.getTheme(),
       darkTheme: provider.getTheme(isDarkMode: true),
       themeMode: provider.getThemeMode(),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: DeerLocalizations.localizationsDelegates,
+      supportedLocales: DeerLocalizations.supportedLocales,
       home: home ?? const SplashPage(),
-      supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
       locale: localeProvider.locale,
       navigatorKey: navigatorKey,
       builder: (BuildContext context, Widget? child) {
