@@ -1,125 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_deer_study/home/splash_page.dart';
+import 'package:flutter_deer_study/res/constant.dart';
+import 'package:flutter_deer_study/setting/provider/locale_provider.dart';
+import 'package:flutter_deer_study/setting/provider/theme_provider.dart';
+import 'package:flutter_deer_study/util/Device.dart';
+import 'package:flutter_deer_study/util/handle_error_utils.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:provider/provider.dart';
+import 'package:sp_util/sp_util.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  //  debugProfileBuildsEnabled = true;
+  //  debugPaintLayerBordersEnabled = true;
+  //  debugProfilePaintsEnabled = true;
+  //  debugRepaintRainbowEnabled = true;
+  if (Constant.inProduction) {
+    /// Release环境时不打印debugPrint内容
+    debugPrint = (String? message, {int? wrapWidth}) {};
+  }
+
+  handleError(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    if (Device.isDesktop) {
+      await WindowManager.instance.ensureInitialized();
+      windowManager.waitUntilReadyToShow().then((_) async {
+        /// 隐藏标题栏及操作按钮
+        // await windowManager.setTitleBarStyle(
+        //   TitleBarStyle.hidden,
+        //   windowButtonVisibility: false,
+        // );
+        /// 设置桌面端窗口大小
+        await windowManager.setSize(const Size(400, 800));
+        await windowManager.setMinimumSize(const Size(400, 800));
+
+        /// 居中显示
+        await windowManager.center();
+        await windowManager.show();
+        await windowManager.setPreventClose(false);
+        await windowManager.setSkipTaskbar(false);
+      });
+    }
+
+    /// sp初始化
+    await SpUtil.getInstance();
+    runApp(MyApp());
+
+    /// 隐藏状态栏，导航栏。为启动页、引导页设置全屏显示。完成后还原。
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    // TODO(weilu): 启动体验不佳。状态栏、导航栏在冷启动开始的一瞬间为黑色，且无法通过隐藏、修改颜色等方式进行处理。。。
+    // 相关问题跟踪：https://github.com/flutter/flutter/issues/73351
+  });
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key, this.home, this.theme}) {
+    switch (theme) {}
+  }
+
+  final Widget? home;
+  final ThemeData? theme;
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    final Widget app = MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => ThemeProvider()), ChangeNotifierProvider(create: (_) => LocaleProvider())],
+      child: Consumer2<ThemeProvider, LocaleProvider>(builder: (context, ThemeProvider provider, LocaleProvider localeProvider, _) {
+        return _buildMaterialApp(provider, localeProvider);
+      }),
     );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    return OKToast(
+        backgroundColor: Colors.black54,
+        textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        radius: 20.0,
+        position: ToastPosition.center,
+        child: app);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  Widget _buildMaterialApp(ThemeProvider provider, LocaleProvider localeProvider) {
+    return MaterialApp(
+      title: 'Flutter Deer',
+      theme: theme ?? provider.getTheme(),
+      darkTheme: provider.getTheme(isDarkMode: true),
+      themeMode: provider.getThemeMode(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      home: home ?? const SplashPage(),
+      supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
+      locale: localeProvider.locale,
+      navigatorKey: navigatorKey,
+      builder: (BuildContext context, Widget? child) {
+        return MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling), child: child!);
+      },
     );
   }
 }
