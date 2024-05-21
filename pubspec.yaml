@@ -96,11 +96,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/login/
 
   fonts:
-    - family: RobotoThin
+    - family: PingFangSc
       fonts:
-        - asset: assets/fonts/Roboto-Thin.ttf
+        - asset: assets/fonts/pingfangsc.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -39,6 +39,7 @@ class ThemeProvider extends ChangeNotifier {
         secondary: isDarkMode ? Colours.dark_app_main : Colours.app_main,
         error: isDarkMode ? Colours.dark_red : Colours.red,
       ),
+      fontFamily: 'PingFangSc',
       // Tab指示器颜色
       indicatorColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
       // 页面背景色

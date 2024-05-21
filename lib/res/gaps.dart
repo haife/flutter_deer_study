@@ -25,6 +25,7 @@ class Gaps {
   static const Widget vGap15 = SizedBox(height: Dimens.gap_dp15);
   static const Widget vGap16 = SizedBox(height: Dimens.gap_dp16);
   static const Widget vGap24 = SizedBox(height: Dimens.gap_dp24);
+  static const Widget vGap25 = SizedBox(height: Dimens.gap_dp25);
   static const Widget vGap32 = SizedBox(height: Dimens.gap_dp32);
   static const Widget vGap50 = SizedBox(height: Dimens.gap_dp50);
   

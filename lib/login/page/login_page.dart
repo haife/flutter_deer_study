@@ -7,9 +7,12 @@ import 'package:flutter_deer_study/routers/navigator_utils.dart';
 import 'package:flutter_deer_study/util/Utils.dart';
 import 'package:flutter_deer_study/widgets/change_notifier_manage.dart';
 import 'package:flutter_deer_study/widgets/my_app_bar.dart';
+import 'package:flutter_deer_study/widgets/my_button.dart';
 import 'package:flutter_deer_study/widgets/my_scroll_view.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
+
+import '../my_text_field.dart';
 
 /// design/1注册登录/index.html
 class LoginPage extends StatefulWidget {
@@ -68,6 +71,11 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage
     }
   }
 
+  void _login() {
+    SpUtil.putString(Constant.phone, _nameController.text);
+    // NavigatorUtils.push(context, StoreRouter.auditPage);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,6 +99,37 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage
           DeerLocalizations.of(context)!.passwordLogin,
           style: TextStyles.textBold26,
         ),
-        Gaps.vGap16
+        Gaps.vGap16,
+        MyTextField(
+          key: const Key('phone'),
+          focusNode: _nodeText1,
+          controller: _nameController,
+          maxLength: 11,
+          keyboardType: TextInputType.phone,
+          hintText: DeerLocalizations.of(context)!.inputUsernameHint,
+        ),
+        Gaps.hGap8,
+        MyTextField(
+            key: const Key('password'),
+            controller: _passwordController,
+            keyName: 'password',
+            focusNode: _nodeText2,
+            isInputPwd: true,
+            keyboardType: TextInputType.visiblePassword,
+            hintText: DeerLocalizations.of(context)!.inputPasswordHint),
+        Gaps.vGap25,
+        MyButton(text: DeerLocalizations.of(context)!.login, radius: 4, onPressed: _clickable ? _login : null),
+        Container(
+          height: 40,
+          alignment: Alignment.centerRight,
+          child: GestureDetector(
+            child: Text(
+              DeerLocalizations.of(context)!.noAccountRegisterLink,
+              key: const Key('noAccountRegister'),
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            onTap: () => NavigatorUtils.push(context, LoginRouter.registerPage),
+          ),
+        )
       ];
 }
