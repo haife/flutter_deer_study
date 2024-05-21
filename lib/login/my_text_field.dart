@@ -71,6 +71,7 @@ class _MyTextFieldState extends State<MyTextField> {
     final bool isDark = themeData.brightness == Brightness.dark;
 
     Widget textField = TextField(
+      style: const TextStyle(fontSize: 16),
       focusNode: widget.focusNode,
       maxLength: widget.maxLength,
       obscureText: widget.isInputPwd && !_isShowPwd,
@@ -79,7 +80,8 @@ class _MyTextFieldState extends State<MyTextField> {
       textInputAction: TextInputAction.done,
       keyboardType: widget.keyboardType,
       // 数字、手机号限制格式为0到9， 密码限制不包含汉字
-      inputFormatters: (widget.keyboardType == TextInputType.number || widget.keyboardType == TextInputType.phone)
+      inputFormatters: (widget.keyboardType == TextInputType.number ||
+              widget.keyboardType == TextInputType.phone)
           ? [FilteringTextInputFormatter.allow(RegExp('[0-9]'))]
           : [FilteringTextInputFormatter.deny(RegExp('[\u4e00-\u9fa5]'))],
       decoration: InputDecoration(
@@ -106,7 +108,8 @@ class _MyTextFieldState extends State<MyTextField> {
     /// 怀疑是安全键盘与三方输入法之间的切换冲突问题。
     if (Device.isAndroid) {
       textField = Listener(
-        onPointerDown: (e) => FocusScope.of(context).requestFocus(widget.focusNode),
+        onPointerDown: (e) =>
+            FocusScope.of(context).requestFocus(widget.focusNode),
         child: textField,
       );
     }
@@ -136,7 +139,9 @@ class _MyTextFieldState extends State<MyTextField> {
         hint: '密码是否可见',
         child: GestureDetector(
           child: LoadAssetImage(
-            _isShowPwd ? 'login/qyg_shop_icon_display' : 'login/qyg_shop_icon_hide',
+            _isShowPwd
+                ? 'login/qyg_shop_icon_display'
+                : 'login/qyg_shop_icon_hide',
             key: Key('${widget.keyName}_showPwd'),
             width: 18.0,
             height: 40.0,
@@ -156,11 +161,14 @@ class _MyTextFieldState extends State<MyTextField> {
         key: const Key('getVerificationCode'),
         onPressed: _clickable ? _getVCode : null,
         fontSize: Dimens.font_sp12,
-        text: _clickable ? DeerLocalizations.of(context)!.getVerificationCode : '（$_currentSecond s）',
+        text: _clickable
+            ? DeerLocalizations.of(context)!.getVerificationCode
+            : '（$_currentSecond s）',
         textColor: themeData.primaryColor,
         disabledTextColor: isDark ? Colours.dark_text : Colors.white,
         backgroundColor: Colors.transparent,
-        disabledBackgroundColor: isDark ? Colours.dark_text_gray : Colours.text_gray_c,
+        disabledBackgroundColor:
+            isDark ? Colours.dark_text_gray : Colours.text_gray_c,
         radius: 1.0,
         minHeight: 26.0,
         minWidth: 76.0,
@@ -211,7 +219,9 @@ class _MyTextFieldState extends State<MyTextField> {
         _currentSecond = _second;
         _clickable = false;
       });
-      _subscription = Stream.periodic(const Duration(seconds: 1), (int i) => i).take(_second).listen((int i) {
+      _subscription = Stream.periodic(const Duration(seconds: 1), (int i) => i)
+          .take(_second)
+          .listen((int i) {
         setState(() {
           _currentSecond = _second - i - 1;
           _clickable = _currentSecond < 1;

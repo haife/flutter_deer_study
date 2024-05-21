@@ -19,10 +19,11 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with ChangeNotifierMixin<LoginPage> {
   //定义一个controller
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -46,7 +47,8 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((during) {
       ///显示状态栏和导航栏
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+          overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     });
 
     _nameController.text = SpUtil.getString(Constant.phone).nullSafe;
@@ -87,7 +89,8 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage
         },
       ),
       body: MyScrollView(
-        keyboardConfig: Utils.getKeyboardActionsConfig(context, <FocusNode>[_nodeText1, _nodeText2]),
+        keyboardConfig: Utils.getKeyboardActionsConfig(
+            context, <FocusNode>[_nodeText1, _nodeText2]),
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
         children: _buildBody,
       ),
@@ -118,7 +121,10 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifieMixin<LoginPage
             keyboardType: TextInputType.visiblePassword,
             hintText: DeerLocalizations.of(context)!.inputPasswordHint),
         Gaps.vGap25,
-        MyButton(text: DeerLocalizations.of(context)!.login, radius: 4, onPressed: _clickable ? _login : null),
+        MyButton(
+            text: DeerLocalizations.of(context)!.login,
+            radius: 4,
+            onPressed: _clickable ? _login : null),
         Container(
           height: 40,
           alignment: Alignment.centerRight,

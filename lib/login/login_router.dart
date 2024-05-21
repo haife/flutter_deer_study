@@ -5,6 +5,7 @@
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter_deer_study/login/page/login_page.dart';
+import 'package:flutter_deer_study/login/page/register_page.dart';
 import 'package:flutter_deer_study/routers/i_router.dart';
 
 class LoginRouter implements IRouterProvider {
@@ -17,5 +18,6 @@ class LoginRouter implements IRouterProvider {
   @override
   void initRouter(FluroRouter router) {
     router.define(loginPage, handler: Handler(handlerFunc: (string, list) => const LoginPage()));
+    router.define(registerPage, handler: Handler(handlerFunc: (string, list) => const RegisterPage()));
   }
 }
