@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deer_study/login/login_router.dart';
+import 'package:flutter_deer_study/login/model/LoginEntity.dart';
 import 'package:flutter_deer_study/res/constant.dart';
 import 'package:flutter_deer_study/res/resources.dart';
 import 'package:flutter_deer_study/routers/navigator_utils.dart';
@@ -22,8 +23,7 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
-    with ChangeNotifierMixin<LoginPage> {
+class _LoginPageState extends State<LoginPage> with ChangeNotifierMixin<LoginPage> {
   //定义一个controller
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -47,10 +47,8 @@ class _LoginPageState extends State<LoginPage>
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((during) {
       ///显示状态栏和导航栏
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     });
-
     _nameController.text = SpUtil.getString(Constant.phone).nullSafe;
   }
 
@@ -68,6 +66,7 @@ class _LoginPageState extends State<LoginPage>
     /// 状态不一样在setStatus
     if (clickable != _clickable) {
       setState(() {
+
         _clickable = clickable;
       });
     }
@@ -89,8 +88,7 @@ class _LoginPageState extends State<LoginPage>
         },
       ),
       body: MyScrollView(
-        keyboardConfig: Utils.getKeyboardActionsConfig(
-            context, <FocusNode>[_nodeText1, _nodeText2]),
+        keyboardConfig: Utils.getKeyboardActionsConfig(context, <FocusNode>[_nodeText1, _nodeText2]),
         padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
         children: _buildBody,
       ),
@@ -121,21 +119,25 @@ class _LoginPageState extends State<LoginPage>
             keyboardType: TextInputType.visiblePassword,
             hintText: DeerLocalizations.of(context)!.inputPasswordHint),
         Gaps.vGap25,
-        MyButton(
-            text: DeerLocalizations.of(context)!.login,
-            radius: 4,
-            onPressed: _clickable ? _login : null),
+        MyButton(text: DeerLocalizations.of(context)!.login, radius: 4, onPressed: _clickable ? _login : null),
         Container(
           height: 40,
           alignment: Alignment.centerRight,
           child: GestureDetector(
-            child: Text(
-              DeerLocalizations.of(context)!.noAccountRegisterLink,
-              key: const Key('noAccountRegister'),
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            onTap: () => NavigatorUtils.push(context, LoginRouter.registerPage),
-          ),
+              child: Text(
+                DeerLocalizations.of(context)!.noAccountRegisterLink,
+                key: const Key('noAccountRegister'),
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              onTap: () => {
+                    NavigatorUtils.pushResult(context, LoginRouter.registerPage, (result) {
+                      setState(() {
+                        final LoginEntity loginEntity = result as LoginEntity;
+                        _nameController.text = loginEntity.phone;
+                        _passwordController.text = loginEntity.password;
+                      });
+                    })
+                  }),
         )
       ];
 }
