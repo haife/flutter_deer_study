@@ -9,7 +9,6 @@ import 'package:flutter_deer_study/widgets/my_app_bar.dart';
 import 'package:flutter_deer_study/widgets/my_button.dart';
 import 'package:flutter_deer_study/widgets/my_scroll_view.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
-import 'package:sp_util/sp_util.dart';
 
 import '../../res/gaps.dart';
 import '../../widgets/change_notifier_manage.dart';
@@ -23,7 +22,8 @@ class RegisterPage extends StatefulWidget {
   }
 }
 
-class _RegisterPageStatus extends State<RegisterPage> with ChangeNotifierMixin<RegisterPage> {
+class _RegisterPageStatus extends State<RegisterPage>
+    with ChangeNotifierMixin<RegisterPage> {
   //定义一个controller
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _vCodeController = TextEditingController();
@@ -128,8 +128,8 @@ class _RegisterPageStatus extends State<RegisterPage> with ChangeNotifierMixin<R
 
   void _register() {
     // Navigator.of(context).pop(_nameController.text);
-    LoginEntity loginEntity = LoginEntity(phone: _nameController.text, password: _nameController.text);
+    LoginEntity loginEntity = LoginEntity(
+        phone: _nameController.text, password: _nameController.text);
     NavigatorUtils.goBackWithParams(context, loginEntity);
-    ToastUtils.show("注册");
   }
 }

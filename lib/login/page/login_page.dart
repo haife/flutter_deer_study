@@ -13,6 +13,7 @@ import 'package:flutter_deer_study/widgets/my_scroll_view.dart';
 import 'package:sp_util/sp_util.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
 
+import '../../store/store_router.dart';
 import '../my_text_field.dart';
 
 /// design/1注册登录/index.html
@@ -74,7 +75,7 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifierMixin<LoginPag
 
   void _login() {
     SpUtil.putString(Constant.phone, _nameController.text);
-    // NavigatorUtils.push(context, StoreRouter.auditPage);
+    NavigatorUtils.push(context, StoreRouter.auditPage);
   }
 
   @override
