@@ -6,7 +6,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_deer_study/login/my_text_field.dart';
+import 'package:flutter_deer_study/login/widget/my_text_field.dart';
 import 'package:flutter_deer_study/res/resources.dart';
 import 'package:flutter_deer_study/res/styles.dart';
 import 'package:flutter_deer_study/routers/navigator_utils.dart';

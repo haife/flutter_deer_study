@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deer_study/res/resources.dart';
 
-import '../res/colors.dart';
-import '../res/dimens.dart';
-import '../res/gaps.dart';
-import '../util/Device.dart';
-import '../widgets/load_image.dart';
-import '../widgets/my_button.dart';
+import '../../res/colors.dart';
+import '../../res/dimens.dart';
+import '../../res/gaps.dart';
+import '../../util/Device.dart';
+import '../../widgets/load_image.dart';
+import '../../widgets/my_button.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
 
 class MyTextField extends StatefulWidget {

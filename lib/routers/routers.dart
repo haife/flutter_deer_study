@@ -5,6 +5,7 @@
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_deer_study/store/store_router.dart';
 
 import '../home/webview_page.dart';
 import '../login/login_router.dart';
@@ -37,6 +38,7 @@ class Routers{
     _listRouter.clear();
     /// 各自路由由各自模块管理，统一在此添加初始化
     _listRouter.add(LoginRouter());
+    _listRouter.add(StoreRouter());
 
     /// 初始化路由
     void initRouter(IRouterProvider routerProvider) {

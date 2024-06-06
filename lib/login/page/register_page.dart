@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_deer_study/login/model/LoginEntity.dart';
-import 'package:flutter_deer_study/login/my_text_field.dart';
+import 'package:flutter_deer_study/login/widget/my_text_field.dart';
 import 'package:flutter_deer_study/res/styles.dart';
 import 'package:flutter_deer_study/routers/navigator_utils.dart';
 import 'package:flutter_deer_study/util/toast_utils.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_deer_study/widgets/my_app_bar.dart';
 import 'package:flutter_deer_study/widgets/my_button.dart';
 import 'package:flutter_deer_study/widgets/my_scroll_view.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../../res/gaps.dart';
 import '../../widgets/change_notifier_manage.dart';
@@ -22,8 +23,7 @@ class RegisterPage extends StatefulWidget {
   }
 }
 
-class _RegisterPageStatus extends State<RegisterPage>
-    with ChangeNotifierMixin<RegisterPage> {
+class _RegisterPageStatus extends State<RegisterPage> with ChangeNotifierMixin<RegisterPage> {
   //定义一个controller
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _vCodeController = TextEditingController();
@@ -128,8 +128,8 @@ class _RegisterPageStatus extends State<RegisterPage>
 
   void _register() {
     // Navigator.of(context).pop(_nameController.text);
-    LoginEntity loginEntity = LoginEntity(
-        phone: _nameController.text, password: _nameController.text);
+    LoginEntity loginEntity = LoginEntity(phone: _nameController.text, password: _nameController.text);
     NavigatorUtils.goBackWithParams(context, loginEntity);
+    Toast.show("注册");
   }
 }

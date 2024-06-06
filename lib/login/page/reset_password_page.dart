@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_deer_study/login/my_text_field.dart';
+import 'package:flutter_deer_study/login/widget/my_text_field.dart';
 import 'package:flutter_deer_study/res/resources.dart';
 import 'package:flutter_deer_study/widgets/change_notifier_manage.dart';
 import 'package:flutter_deer_study/widgets/my_app_bar.dart';

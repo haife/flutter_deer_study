@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
       // checkerboardRasterCacheImages: true,
       // showSemanticsDebugger: true, // 显示语义视图
       // checkerboardOffscreenLayers: true, // 检查离屏渲染
-      title: 'Flutter Deer',
+      title: 'Flutter Deer Study',
       theme: theme ?? provider.getTheme(),
       darkTheme: provider.getTheme(isDarkMode: true),
       themeMode: provider.getThemeMode(),

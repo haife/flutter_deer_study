@@ -26,7 +26,7 @@ class ImageUtils {
     return 'assets/images/$name.${format.value}';
   }
 
-  static ImageProvider getImageProvide(String? imageUrl, {String holderImage = 'none'}) {
+  static ImageProvider getImageProvider(String? imageUrl, {String holderImage = 'none'}) {
     if (TextUtil.isEmpty(imageUrl)) {
       return AssetImage(getImgPath(holderImage));
     }

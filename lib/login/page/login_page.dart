@@ -10,11 +10,11 @@ import 'package:flutter_deer_study/widgets/change_notifier_manage.dart';
 import 'package:flutter_deer_study/widgets/my_app_bar.dart';
 import 'package:flutter_deer_study/widgets/my_button.dart';
 import 'package:flutter_deer_study/widgets/my_scroll_view.dart';
-import 'package:sp_util/sp_util.dart';
 import 'package:flutter_gen/gen_l10n/deer_localizations.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../../store/store_router.dart';
-import '../my_text_field.dart';
+import '../widget/my_text_field.dart';
 
 /// design/1注册登录/index.html
 class LoginPage extends StatefulWidget {
@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifierMixin<LoginPag
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     });
     _nameController.text = SpUtil.getString(Constant.phone).nullSafe;
+    _passwordController.text = "123456";
   }
 
   void _verify() {
@@ -67,7 +68,6 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifierMixin<LoginPag
     /// 状态不一样在setStatus
     if (clickable != _clickable) {
       setState(() {
-
         _clickable = clickable;
       });
     }
@@ -97,48 +97,48 @@ class _LoginPageState extends State<LoginPage> with ChangeNotifierMixin<LoginPag
   }
 
   List<Widget> get _buildBody => <Widget>[
-        Text(
-          DeerLocalizations.of(context)!.passwordLogin,
-          style: TextStyles.textBold26,
-        ),
-        Gaps.vGap16,
-        MyTextField(
-          key: const Key('phone'),
-          focusNode: _nodeText1,
-          controller: _nameController,
-          maxLength: 11,
-          keyboardType: TextInputType.phone,
-          hintText: DeerLocalizations.of(context)!.inputUsernameHint,
-        ),
-        Gaps.hGap8,
-        MyTextField(
-            key: const Key('password'),
-            controller: _passwordController,
-            keyName: 'password',
-            focusNode: _nodeText2,
-            isInputPwd: true,
-            keyboardType: TextInputType.visiblePassword,
-            hintText: DeerLocalizations.of(context)!.inputPasswordHint),
-        Gaps.vGap25,
-        MyButton(text: DeerLocalizations.of(context)!.login, radius: 4, onPressed: _clickable ? _login : null),
-        Container(
-          height: 40,
-          alignment: Alignment.centerRight,
-          child: GestureDetector(
-              child: Text(
-                DeerLocalizations.of(context)!.noAccountRegisterLink,
-                key: const Key('noAccountRegister'),
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              onTap: () => {
-                    NavigatorUtils.pushResult(context, LoginRouter.registerPage, (result) {
-                      setState(() {
-                        final LoginEntity loginEntity = result as LoginEntity;
-                        _nameController.text = loginEntity.phone;
-                        _passwordController.text = loginEntity.password;
-                      });
-                    })
-                  }),
-        )
-      ];
+    Text(
+      DeerLocalizations.of(context)!.passwordLogin,
+      style: TextStyles.textBold26,
+    ),
+    Gaps.vGap16,
+    MyTextField(
+      key: const Key('phone'),
+      focusNode: _nodeText1,
+      controller: _nameController,
+      maxLength: 11,
+      keyboardType: TextInputType.phone,
+      hintText: DeerLocalizations.of(context)!.inputUsernameHint,
+    ),
+    Gaps.hGap8,
+    MyTextField(
+        key: const Key('password'),
+        controller: _passwordController,
+        keyName: 'password',
+        focusNode: _nodeText2,
+        isInputPwd: true,
+        keyboardType: TextInputType.visiblePassword,
+        hintText: DeerLocalizations.of(context)!.inputPasswordHint),
+    Gaps.vGap25,
+    MyButton(text: DeerLocalizations.of(context)!.login, radius: 4, onPressed: _clickable ? _login : null),
+    Container(
+      height: 40,
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+          child: Text(
+            DeerLocalizations.of(context)!.noAccountRegisterLink,
+            key: const Key('noAccountRegister'),
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          onTap: () => {
+            NavigatorUtils.pushResult(context, LoginRouter.registerPage, (result) {
+              setState(() {
+                final LoginEntity loginEntity = result as LoginEntity;
+                _nameController.text = loginEntity.phone;
+                _passwordController.text = loginEntity.password;
+              });
+            })
+          }),
+    )
+  ];
 }
