@@ -56,8 +56,12 @@ class MyScrollView extends StatelessWidget {
     } else {
       contents = SingleChildScrollView(
         padding: padding,
-        physics: physics,
-        child: contents,
+        primary: true,
+        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()), //
+        child: Container(
+          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 25 - MediaQuery.of(context).padding.top),
+          child: Column(children: [contents]),
+        ),
       );
     }
 
