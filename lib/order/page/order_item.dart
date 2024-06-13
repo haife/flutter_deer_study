@@ -4,16 +4,18 @@
 // @des:
 
 import 'package:common_utils/common_utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_deer_study/res/colors.dart';
-import 'package:flutter_deer_study/res/gaps.dart';
 import 'package:flutter_deer_study/res/resources.dart';
+import 'package:flutter_deer_study/util/theme_utils.dart';
 import 'package:flutter_deer_study/widgets/load_image.dart';
 import 'package:flutter_deer_study/widgets/my_card.dart';
 
-import '../../res/styles.dart';
 import '../../util/other_utils.dart';
+import '../../util/toast_utils.dart';
+import '../widget/pay_type_dialog.dart';
+
+const List<String> orderLeftButtonText = ['拒单', '拒单', '订单跟踪', '订单跟踪', '订单跟踪'];
+const List<String> orderRightButtonText = ['接单', '开始配送', '完成', '', ''];
 
 class OrderItem extends StatefulWidget {
   const OrderItem({super.key, required this.index, required this.tabIndex});
@@ -45,7 +47,7 @@ class _OrderItemState extends State<OrderItem> {
 
   Widget _buildContent(BuildContext context) {
     final TextStyle? textTextStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: Dimens.font_sp12);
-
+    final bool isDark = context.isDark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -121,10 +123,45 @@ class _OrderItemState extends State<OrderItem> {
         Gaps.line,
         Gaps.vGap8,
         Row(
-          children: <Widget>[],
+          children: <Widget>[
+            OrderItemButton(
+              text: '联系客户',
+              textColor: isDark ? Colours.dark_text : Colours.text,
+              baColor: isDark ? Colours.dark_material_bg : Colours.bg_gray,
+            ),
+            const Expanded(child: Gaps.empty),
+            OrderItemButton(
+              text: orderLeftButtonText[widget.tabIndex],
+              baColor: isDark ? Colours.dark_material_bg : Colours.bg_gray,
+              textColor: isDark ? Colours.dark_text : Colours.text,
+            ),
+            if (orderRightButtonText[widget.tabIndex].isEmpty) Gaps.empty else Gaps.hGap10,
+            if (orderRightButtonText[widget.tabIndex].isEmpty)
+              Gaps.empty
+            else
+              OrderItemButton(
+                key: Key('order_button_3_$widget.index'),
+                text: orderRightButtonText[widget.tabIndex],
+                textColor: isDark ? Colours.dark_button_text : Colors.white,
+                baColor: isDark ? Colours.dark_app_main : Colours.app_main,
+                onTop: () => showPayTypeDialog(context),
+              ),
+          ],
         )
       ],
     );
+  }
+
+  void showPayTypeDialog(BuildContext context) {
+    showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return PayTypeDialog(
+            onPressed: (index, type) {
+              Toast.show('收款类型：$type');
+            },
+          );
+        });
   }
 }
 
@@ -141,10 +178,11 @@ class OrderItemButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTop,
       child: Container(
-
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: baColor,),
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(color: baColor, borderRadius: BorderRadiusDirectional.circular(5.0)),
+        constraints: const BoxConstraints(minWidth: 64.0, minHeight: 30.0, maxHeight: 30.0),
+        child: Text(text, style: TextStyle(fontSize: Dimens.font_sp14, color: textColor)),
       ),
     );
   }
